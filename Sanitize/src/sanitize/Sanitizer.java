@@ -1,31 +1,40 @@
 package sanitize;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.emf.ecore.resource.*;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class Sanitizer
 {
-	public static void loadFile(String path)
+	static ResourceSet resourceSet;
+	static String savePath;
+	
+	public static EList<EObject> loadFile(String path)
 	{
 		if (!path.endsWith(".ecore"))
 		{
 			System.out.println("Can't sanitize non-ecore file");
 		}	
 		
+		//TODO: Make robust
+		savePath = path.toString().replaceFirst(".ecore", "-san.ecore");
 		
 		// Create a resource set.
-		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet = new ResourceSetImpl();
 
 		XMIResourceFactoryImpl xmiFactory= new XMIResourceFactoryImpl();
 		EcoreResourceFactoryImpl ecoreFactory = new EcoreResourceFactoryImpl();
@@ -45,20 +54,52 @@ public class Sanitizer
 		EcorePackage ecorePackage = EcorePackage.eINSTANCE;
 
 		// Get the URI of the model file.
-		URI fileURI = URI.createFileURI(path.toString());
+		URI fileURI = URI.createFileURI(path);
 
 		// Demand load the resource for this file.
 		Resource resource = resourceSet.getResource(fileURI, true);
 
+		return resource.getContents();
+		
+	}
+	
+	public static void saveFile(EList<EObject> neweObjects)
+	{
+	
+		System.out.println("Save file: " + savePath);
+		URI uri = URI.createFileURI(savePath);
+		Resource newResource = resourceSet.createResource(uri);
+		newResource.getContents().addAll(neweObjects);
+
 		// Print the contents of the resource to System.out.
 		try
 		{
-			resource.save(System.out, Collections.EMPTY_MAP);
+			newResource.save(Collections.EMPTY_MAP);
 		}
-		catch (IOException e) {} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		} 
 				
+	}
+	
+	
+	public static EList<EObject> sanitize(EList<EObject> eobjects)
+	{
+		System.out.println("Start sanitization");
 		
 		
+		//TODO: Don't assume heirarchical
 		
+		EPackageImpl root = (EPackageImpl) eobjects.get(0);
+		
+		Collection<EClass> eClasses = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.ECLASS);
+		for (EClass c : eClasses)
+		{
+			c.setName(c.getName() + "_san");
+		}
+		
+		return eobjects;
+	
 	}
 }
