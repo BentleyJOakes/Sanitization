@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-public class Sanitizer
+public class SanitizerSaveLoadHandler
 {
 	static ResourceSet resourceSet;
 	static String savePath;
@@ -84,22 +84,5 @@ public class Sanitizer
 	}
 	
 	
-	public static EList<EObject> sanitize(EList<EObject> eobjects)
-	{
-		System.out.println("Start sanitization");
-		
-		
-		//TODO: Don't assume heirarchical
-		
-		EPackageImpl root = (EPackageImpl) eobjects.get(0);
-		
-		Collection<EClass> eClasses = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.ECLASS);
-		for (EClass c : eClasses)
-		{
-			c.setName(c.getName() + "_san");
-		}
-		
-		return eobjects;
 	
-	}
 }

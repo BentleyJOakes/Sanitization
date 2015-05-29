@@ -1,28 +1,22 @@
 package sanitize.handlers;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import sanitize.Sanitizer;
+import sanitize.SanitizerSaveLoadHandler;
+import sanitizepolicies.PrintSanitizePolicy;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -56,12 +50,12 @@ public class SampleHandler extends AbstractHandler {
 
 		        System.out.println("ECore file: " + path.toString());
 
-		        EList<EObject> eObjects = Sanitizer.loadFile(path.toString());
+		        EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile(path.toString());
 		        
-		        EList<EObject> neweObjects = Sanitizer.sanitize(eObjects);
+		        EList<EObject> neweObjects = PrintSanitizePolicy.sanitize(eObjects);
 		        
 		        
-		        Sanitizer.saveFile(neweObjects);
+		        SanitizerSaveLoadHandler.saveFile(neweObjects);
 		        
 		      }
 		    }
@@ -70,5 +64,14 @@ public class SampleHandler extends AbstractHandler {
 //				"Sanitize",
 //				"Hello, Eclipse world");
 		return null;
+	}
+	
+	public static void main(String[] args)
+	{
+		 EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("ifc2x3.ecore");
+	        
+	     EList<EObject> neweObjects = PrintSanitizePolicy.sanitize(eObjects);
+	
+	     SanitizerSaveLoadHandler.saveFile(neweObjects);
 	}
 }
