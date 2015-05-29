@@ -111,48 +111,67 @@ public class PrintSanitizePolicy
 			boolean isAbstract = eClass.isAbstract();
 			boolean isInterface = eClass.isInterface();
 			
-			System.out.println("isAbstract: " + isAbstract);
-			System.out.println("isInterface: " + isInterface);
+			if (isAbstract)
+				System.out.println("\tisAbstract: " + isAbstract);
+			
+			if (isInterface)
+				System.out.println("\tisInterface: " + isInterface);
 			
 			
-			for (EGenericType eSuperType : eClass.getEGenericSuperTypes())
+			if (eClass.getEGenericSuperTypes().size() > 0)
 			{
-				System.out.println("SuperTypes: ");
-				sanitizeEGenericType(eSuperType);
+				System.out.println("\tSuperTypes: ");
+				for (EGenericType eSuperType : eClass.getEGenericSuperTypes())
+				{
+					sanitizeEGenericType(eSuperType);
+				}
+				System.out.println("\tEnd SuperTypes: ");
 			}
 			
-			for (EAttribute eAttribute : eClass.getEAttributes())
+			if (eClass.getEAttributes().size() > 0)
 			{
-				System.out.println("Attributes: ");
-				sanitizeEAttribute(eAttribute);
+				System.out.println("\tAttributes: ");
+				for (EAttribute eAttribute : eClass.getEAttributes())
+				{
+					sanitizeEAttribute(eAttribute);
+				}
 			}
 			
-			for (EReference eReference : eClass.getEReferences())
+			if (eClass.getEReferences().size() > 0)
 			{
-				System.out.println("References: ");
-				sanitizeEReference(eReference);
-				 
+				System.out.println("\tReferences: ");
+				for (EReference eReference : eClass.getEReferences())
+				{
+					sanitizeEReference(eReference);
+					 
+				}
+				System.out.println("\tEnd References: ");
 			}
 			
-			for (EOperation eOperation : eClass.getEOperations())
+			if (eClass.getEOperations().size() > 0)
 			{
-				System.out.println("EOperations: ");
-				sanitizeETypedElement(eOperation);
-				
-				for (EParameter ep : eOperation.getEParameters())
+				System.out.println("\tEOperations: ");
+				for (EOperation eOperation : eClass.getEOperations())
 				{
-					sanitizeETypedElement(ep);
+					
+					sanitizeETypedElement(eOperation);
+					
+					for (EParameter ep : eOperation.getEParameters())
+					{
+						sanitizeETypedElement(ep);
+					}
+					
+					for (ETypeParameter etp : eOperation.getETypeParameters())
+					{
+						sanitizeENamedElement(etp);
+					}
+					
+					for (EClassifier ee : eOperation.getEExceptions())
+					{
+						sanitizeEClassifier(ee);
+					}
 				}
-				
-				for (ETypeParameter etp : eOperation.getETypeParameters())
-				{
-					sanitizeENamedElement(etp);
-				}
-				
-				for (EClassifier ee : eOperation.getEExceptions())
-				{
-					sanitizeEClassifier(ee);
-				}
+				System.out.println("\tEnd EOperations: ");
 			}
 		}
 	}
@@ -201,7 +220,7 @@ public class PrintSanitizePolicy
 	
 	private static void sanitizeEGenericType(EGenericType egt)
 	{
-		//TODO: Implement
+		System.out.println(egt.getERawType().getName());
 		
 	}
 	
