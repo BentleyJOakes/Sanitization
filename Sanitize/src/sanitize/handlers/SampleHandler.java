@@ -52,7 +52,8 @@ public class SampleHandler extends AbstractHandler {
 
 		        EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile(path.toString());
 		        
-		        EList<EObject> neweObjects = PrintSanitizePolicy.sanitize(eObjects);
+		        PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
+		        EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
 		        
 		        
 		        SanitizerSaveLoadHandler.saveFile(neweObjects);
@@ -70,8 +71,10 @@ public class SampleHandler extends AbstractHandler {
 	{
 		 EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("ifc2x3.ecore");
 	        
-	     EList<EObject> neweObjects = PrintSanitizePolicy.sanitize(eObjects);
-	
+		 PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
+	     EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
+	        
+	     
 	     SanitizerSaveLoadHandler.saveFile(neweObjects);
 	}
 }
