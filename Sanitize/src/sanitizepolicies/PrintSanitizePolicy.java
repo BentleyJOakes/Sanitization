@@ -113,7 +113,6 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeEDataType(EDataType edt)
 	{
-		sanitizeEClassifier(edt);
 		boolean isSerializable = edt.isSerializable();
 	}
 	

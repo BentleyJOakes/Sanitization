@@ -78,7 +78,7 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeRootStructure(EPackageImpl root)
 	{
-		sanitizeEModelElement(root);
+		sanitizeEModelElementStructure(root);
 		sanitizeRoot(root);
 	}
 	//=========
@@ -251,7 +251,7 @@ public abstract class SanitizePolicy
 	protected void sanitizeEEnumStructure(EEnum eEnum)
 	{
 
-		sanitizeEModelElement(eEnum);
+		sanitizeEModelElementStructure(eEnum);
 		
 		
 		for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
