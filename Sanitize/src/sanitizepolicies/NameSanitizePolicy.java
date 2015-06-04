@@ -58,6 +58,7 @@ public class NameSanitizePolicy extends SanitizePolicy {
 
 	@Override
 	protected void sanitizeENamedElement(ENamedElement ene) {
+		System.out.println("****************");
 		String name = ene.getName();
 		System.out.println("Name: " + name);
 		ene.setName("Blah");

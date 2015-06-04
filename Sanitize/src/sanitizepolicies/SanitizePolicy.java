@@ -44,9 +44,10 @@ public abstract class SanitizePolicy
 		{
 			for (EClass ec : eClasses)
 			{
-				sanitizeEClass(ec);
+				sanitizeEClassStructure(ec);
 			}
 		}
+		
 		
 		Collection<EEnum> eEnums = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EENUM);
 		if (eEnums.size() > 0)
@@ -161,7 +162,7 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeEAttributeStructure(EAttribute ea)
 	{
-		sanitizeEStructuralFeature(ea);
+		sanitizeEStructuralFeatureStructure(ea);
 		sanitizeEAttribute(ea);
 		
 		EDataType edt = ea.getEAttributeType();
@@ -174,7 +175,7 @@ public abstract class SanitizePolicy
 	protected abstract void sanitizeEReference(EReference er);
 	protected void sanitizeEReferenceStructure(EReference er)
 	{
-		sanitizeEStructuralFeature(er);
+		sanitizeEStructuralFeatureStructure(er);
 		
 		for (Iterator<EAttribute> i = er.getEKeys().iterator(); i.hasNext();)
 		  {
@@ -191,7 +192,7 @@ public abstract class SanitizePolicy
 	protected abstract void sanitizeEClass(EClass ec);
 	protected void sanitizeEClassStructure(EClass eClass)
 	{
-		sanitizeEClassifier(eClass);
+		sanitizeEClassifierStructure(eClass);
 		sanitizeEClass(eClass);
 		
 		

@@ -34,7 +34,14 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	protected void sanitizeEAnnotation(EAnnotation ea)
 	{
 		String source = ea.getSource();
+		System.out.println("Source: " + source);
+		ea.setSource("BlahSource");
+		
 		EMap<String, String> details = ea.getDetails();
+		for (String s : details.keySet())
+		{
+			System.out.println("Key: " + s);
+		}
 	}
 	
 	
@@ -49,6 +56,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeENamedElement(ENamedElement ene)
 	{
+		System.out.println("*******");
 		String name = ene.getName();
 		System.out.println("Name: " + name);
 	}
@@ -58,7 +66,10 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	{
 		//get namespaces
 		System.out.println("NS_URI: " + root.getNsURI());
+		root.setNsURI("BlahURI");
+		
 		System.out.println("NS_Prefix: " + root.getNsPrefix());
+		root.setNsPrefix("BlahPrefix");
 	}
 	
 
@@ -70,6 +81,8 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		
 		String instanceClassName = ec.getInstanceClassName();
 		String instanceTypeName = ec.getInstanceTypeName();
+		
+		System.out.print(instanceClassName);
 		
 		
 	}
@@ -90,6 +103,9 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		
 		int lowerBound = ete.getLowerBound();
 		int upperBound = ete.getUpperBound();
+		
+		System.out.println("isOrdered: " + isOrdered);
+	
 	}
 	
 	
@@ -105,6 +121,10 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		String dvl = esf.getDefaultValueLiteral();
 		
 		int ID = esf.getFeatureID();
+		
+
+		System.out.println("isOrdered: " + isOrdered);
+
 		
 		
 	}
@@ -147,11 +167,11 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		boolean isAbstract = eClass.isAbstract();
 		boolean isInterface = eClass.isInterface();
 		
-		if (isAbstract)
-			System.out.println("\tisAbstract: " + isAbstract);
+
+		System.out.print("\tisAbstract: " + isAbstract);
+
 		
-		if (isInterface)
-			System.out.println("\tisInterface: " + isInterface);
+		System.out.println("\tisInterface: " + isInterface);
 		
 			
 	}
@@ -161,5 +181,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	{
 		String lit = eEnumLiteral.getLiteral();
 		int value = eEnumLiteral.getValue();
+		
+		//System.out.println(lit);
 	}
 }
