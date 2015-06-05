@@ -125,7 +125,7 @@ public abstract class SanitizePolicy
 			}
 
 		}
-		sanitizeEClassifier(ec);
+		sanitizeEClassifier(ec); //null is coming from here
 	}
 
 	//=========
@@ -216,7 +216,8 @@ public abstract class SanitizePolicy
 		{
 			for (EReference eReference : eClass.getEReferences())
 			{
-				sanitizeEReferenceStructure(eReference);	 
+				System.out.println("Reference:" + eReference.getName());
+				sanitizeEReferenceStructure(eReference);
 			}
 		}
 		

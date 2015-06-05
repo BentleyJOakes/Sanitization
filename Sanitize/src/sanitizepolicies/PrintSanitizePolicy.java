@@ -56,7 +56,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeENamedElement(ENamedElement ene)
 	{
-		System.out.println("*******");
+		System.out.println("*****************************************************");
 		String name = ene.getName();
 		System.out.println("Name: " + name);
 	}
@@ -75,7 +75,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 
 	
 	
-	
+			
 	protected void sanitizeEClassifier(EClassifier ec)
 	{
 		
@@ -83,6 +83,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		String instanceTypeName = ec.getInstanceTypeName();
 		
 		System.out.print(instanceClassName);
+		System.out.print(instanceTypeName);
 		
 		
 	}
@@ -95,7 +96,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeETypedElement(ETypedElement ete)
 	{
-		
+		//System.out.println(ete.getName());
 		boolean isOrdered = ete.isOrdered();
 		boolean isUnique = ete.isUnique();
 		boolean isMany = ete.isMany();
@@ -104,14 +105,20 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		int lowerBound = ete.getLowerBound();
 		int upperBound = ete.getUpperBound();
 		
-		System.out.println("isOrdered: " + isOrdered);
-	
+//		System.out.println("eTypedElement isOrdered: " + isOrdered);
+//		System.out.println("eTypedElement isUnique: " + isUnique);
+//		System.out.println("eTypedElement isMany: " + isMany);
+//		System.out.println("eTypedElement isRequired: " + isRequired);
+//	
+//		System.out.println("eTypedElement lowerBound: " + lowerBound);
+//		System.out.println("eTypedElement upperBound: " + upperBound);
 	}
 	
 	
 	
 	protected void sanitizeEStructuralFeature(EStructuralFeature esf)
 	{	
+		//System.out.println(esf.getName());
 		boolean isOrdered = esf.isOrdered();
 		boolean isUnique = esf.isUnique();
 		boolean isMany = esf.isMany();
@@ -123,7 +130,13 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		int ID = esf.getFeatureID();
 		
 
-		System.out.println("isOrdered: " + isOrdered);
+//		System.out.println("eStructuralFeature isOrdered: " + isOrdered + " \n");
+//		System.out.println("eStructuralFeature isUnique: " + isUnique);
+//		System.out.println("eStructuralFeature isMany: " + isMany);
+//		System.out.println("eStructuralFeature isRequired: " + isRequired);
+//		
+//		System.out.println(dvl);
+//		System.out.println(ID);
 
 		
 		
@@ -156,6 +169,10 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		 boolean isContainment = er.isContainment();
 		 boolean isContainer = er.isContainer();
 		 boolean isResolveProxies = er.isResolveProxies();
+		 System.out.println("isContainment: " + isContainment);
+		 System.out.println("isContainer:" + isContainer);
+		 System.out.println("isResolveProxies: " + isResolveProxies);
+		 
 	}
 	
 	
@@ -182,6 +199,7 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		String lit = eEnumLiteral.getLiteral();
 		int value = eEnumLiteral.getValue();
 		
-		//System.out.println(lit);
+		System.out.println(lit);
+		System.out.println(value);
 	}
 }
