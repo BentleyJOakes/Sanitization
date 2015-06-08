@@ -250,9 +250,11 @@ public abstract class SanitizePolicy
 
 	//=========
 	
-
+	protected void sanitizeEEnum(EEnum eEnum){}
+	
 	protected void sanitizeEEnumStructure(EEnum eEnum)
 	{
+		sanitizeEEnum(eEnum);
 		sanitizeEDataTypeStructure(eEnum);
 		
 		
