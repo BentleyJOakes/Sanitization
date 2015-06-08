@@ -60,7 +60,7 @@ public abstract class SanitizePolicy
 			
 		
 		Collection<EDataType> eDataTypes = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE);
-		//eDataTypes.removeAll(eEnums);
+		eDataTypes.removeAll(eEnums);
 		
 		
 		for (EDataType eDataType : eDataTypes)
@@ -106,8 +106,9 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeENamedElementStructure(ENamedElement ene)
 	{
-		sanitizeEModelElement(ene);
 		sanitizeENamedElement(ene);
+		sanitizeEModelElementStructure(ene);
+		
 	}
 	//=========
 
@@ -115,7 +116,8 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeEClassifierStructure(EClassifier ec)
 	{
-		sanitizeENamedElement(ec);
+		sanitizeENamedElementStructure(ec);
+		sanitizeEClassifier(ec);
 		
 		for (ETypeParameter etp : ec.getETypeParameters())
 		{
@@ -125,7 +127,7 @@ public abstract class SanitizePolicy
 			}
 
 		}
-		sanitizeEClassifier(ec); //null is coming from here
+		
 	}
 
 	//=========
@@ -136,7 +138,7 @@ public abstract class SanitizePolicy
 	protected void sanitizeETypedElement(ETypedElement ete){}
 	protected void sanitizeETypedElementStructure(ETypedElement ete)
 	{
-		sanitizeENamedElement(ete);
+		sanitizeENamedElementStructure(ete);
 		sanitizeETypedElement(ete);
 	}
 	//=========
@@ -144,7 +146,7 @@ public abstract class SanitizePolicy
 	protected void sanitizeEStructuralFeature(EStructuralFeature esf){}
 	protected void sanitizeEStructuralFeatureStructure(EStructuralFeature esf)
 	{
-		sanitizeETypedElement(esf);
+		sanitizeETypedElementStructure(esf);
 		sanitizeEStructuralFeature(esf);
 	}
 	//=========
@@ -152,7 +154,7 @@ public abstract class SanitizePolicy
 	protected void sanitizeEDataType(EDataType edt){}
 	protected void sanitizeEDataTypeStructure(EDataType edt)
 	{
-		sanitizeEClassifier(edt);
+		sanitizeEClassifierStructure(edt);
 		sanitizeEDataType(edt);
 	}
 
@@ -162,11 +164,9 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeEAttributeStructure(EAttribute ea)
 	{
-		sanitizeEStructuralFeatureStructure(ea);
 		sanitizeEAttribute(ea);
+		sanitizeEStructuralFeatureStructure(ea);
 		
-		EDataType edt = ea.getEAttributeType();
-		sanitizeEDataTypeStructure(edt);
 	}
 	
 	//=========
@@ -175,7 +175,9 @@ public abstract class SanitizePolicy
 	protected void sanitizeEReference(EReference er){}
 	protected void sanitizeEReferenceStructure(EReference er)
 	{
+		sanitizeEReference(er);
 		sanitizeEStructuralFeatureStructure(er);
+		
 		
 		for (Iterator<EAttribute> i = er.getEKeys().iterator(); i.hasNext();)
 		  {
@@ -184,7 +186,7 @@ public abstract class SanitizePolicy
 		    
 		  }
 		
-		sanitizeEReference(er);
+		
 	}
 	
 	//=========
@@ -192,8 +194,8 @@ public abstract class SanitizePolicy
 	protected void sanitizeEClass(EClass ec){}
 	protected void sanitizeEClassStructure(EClass eClass)
 	{
-		sanitizeEClassifierStructure(eClass);
 		sanitizeEClass(eClass);
+		sanitizeEClassifierStructure(eClass);
 		
 		
 		if (eClass.getEGenericSuperTypes().size() > 0)
@@ -216,7 +218,6 @@ public abstract class SanitizePolicy
 		{
 			for (EReference eReference : eClass.getEReferences())
 			{
-				System.out.println("Reference:" + eReference.getName());
 				sanitizeEReferenceStructure(eReference);
 			}
 		}
@@ -252,8 +253,7 @@ public abstract class SanitizePolicy
 
 	protected void sanitizeEEnumStructure(EEnum eEnum)
 	{
-
-		sanitizeEModelElementStructure(eEnum);
+		sanitizeEDataTypeStructure(eEnum);
 		
 		
 		for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())

@@ -35,7 +35,6 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	{
 		String source = ea.getSource();
 		System.out.println("Source: " + source);
-		ea.setSource("BlahSource");
 		
 		EMap<String, String> details = ea.getDetails();
 		for (String s : details.keySet())
@@ -56,9 +55,8 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeENamedElement(ENamedElement ene)
 	{
-		System.out.println("*****************************************************");
 		String name = ene.getName();
-		System.out.println("Name: " + name);
+		System.out.println("\tName: " + name);
 	}
 	
 	
@@ -82,15 +80,18 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		String instanceClassName = ec.getInstanceClassName();
 		String instanceTypeName = ec.getInstanceTypeName();
 		
-		System.out.print(instanceClassName);
-		System.out.print(instanceTypeName);
+		if (instanceClassName != null)
+			System.out.print("\tinstanceClassName: " + instanceClassName);
+		
+		if (instanceClassName != null)
+			System.out.println("\tinstanceTypeName: " + instanceTypeName);
 		
 		
 	}
 	
 	protected void sanitizeEGenericType(EGenericType egt)
 	{
-		System.out.println(egt.getERawType().getName());
+		System.out.println("EGenericType: " + egt.getERawType().getName());
 		
 	}
 	
@@ -105,38 +106,28 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		int lowerBound = ete.getLowerBound();
 		int upperBound = ete.getUpperBound();
 		
-//		System.out.println("eTypedElement isOrdered: " + isOrdered);
-//		System.out.println("eTypedElement isUnique: " + isUnique);
-//		System.out.println("eTypedElement isMany: " + isMany);
-//		System.out.println("eTypedElement isRequired: " + isRequired);
-//	
-//		System.out.println("eTypedElement lowerBound: " + lowerBound);
-//		System.out.println("eTypedElement upperBound: " + upperBound);
+		System.out.print("\tisOrdered: " + isOrdered);
+		System.out.print("\tisUnique: " + isUnique);
+		System.out.print("\tisMany: " + isMany);
+		System.out.println("\tisRequired: " + isRequired);
+	
+		System.out.print("\tlowerBound: " + lowerBound);
+		System.out.println("\tupperBound: " + upperBound);
 	}
 	
 	
 	
 	protected void sanitizeEStructuralFeature(EStructuralFeature esf)
 	{	
-		//System.out.println(esf.getName());
-		boolean isOrdered = esf.isOrdered();
-		boolean isUnique = esf.isUnique();
-		boolean isMany = esf.isMany();
-		boolean isRequired = esf.isRequired();
+		System.out.println("Structural Feature");
+
 		boolean isDerived = esf.isDerived();
 		
 		String dvl = esf.getDefaultValueLiteral();
-		
-		int ID = esf.getFeatureID();
-		
 
-//		System.out.println("eStructuralFeature isOrdered: " + isOrdered + " \n");
-//		System.out.println("eStructuralFeature isUnique: " + isUnique);
-//		System.out.println("eStructuralFeature isMany: " + isMany);
-//		System.out.println("eStructuralFeature isRequired: " + isRequired);
-//		
-//		System.out.println(dvl);
-//		System.out.println(ID);
+		System.out.println("\tisDerived: " + isDerived);
+		if (dvl != null)
+			System.out.println("\tDefaultValueLiteral: " + dvl);
 
 		
 		
@@ -154,24 +145,29 @@ public class PrintSanitizePolicy extends SanitizePolicy
 	
 	protected void sanitizeEAttribute(EAttribute ea)
 	{
-		
+		System.out.println("Attribute:");
 		boolean isID = ea.isID();
-		
+		System.out.println("\tisID: " + isID);
+
+		EDataType edt = ea.getEAttributeType();
+		System.out.println("Data Type: " + edt.getName());
 		
 	}
 	
 
 	protected void sanitizeEReference(EReference er)
 	{
-		
+		System.out.println("Reference: ");
 		EReference eOpposite = er.getEOpposite();
+		if (eOpposite != null)
+			System.out.println("\tEOpposite: " + eOpposite.getName());
 		
 		 boolean isContainment = er.isContainment();
 		 boolean isContainer = er.isContainer();
 		 boolean isResolveProxies = er.isResolveProxies();
-		 System.out.println("isContainment: " + isContainment);
-		 System.out.println("isContainer:" + isContainer);
-		 System.out.println("isResolveProxies: " + isResolveProxies);
+		 System.out.print("\tisContainment: " + isContainment);
+		 System.out.print("\tisContainer:" + isContainer);
+		 System.out.println("\tisResolveProxies: " + isResolveProxies);
 		 
 	}
 	
@@ -181,25 +177,24 @@ public class PrintSanitizePolicy extends SanitizePolicy
 
 	protected void sanitizeEClass(EClass eClass)
 	{
+		System.out.println("*****************************************************");
+		System.out.println("EClass: ");
+		
 		boolean isAbstract = eClass.isAbstract();
 		boolean isInterface = eClass.isInterface();
 		
 
 		System.out.print("\tisAbstract: " + isAbstract);
-
-		
 		System.out.println("\tisInterface: " + isInterface);
-		
-			
+	
 	}
 	
-
 	protected void sanitizeEEnumLiteral(EEnumLiteral eEnumLiteral)
 	{
+		System.out.print("EENumLiteral: ");
 		String lit = eEnumLiteral.getLiteral();
 		int value = eEnumLiteral.getValue();
 		
-		System.out.println(lit);
-		System.out.println(value);
+		System.out.println(lit + " = " + value);
 	}
 }
