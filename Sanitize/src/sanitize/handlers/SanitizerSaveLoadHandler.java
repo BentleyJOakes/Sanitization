@@ -1,4 +1,4 @@
-package sanitize;
+package sanitize.handlers;
 
 import java.io.IOException;
 import java.util.Collection;

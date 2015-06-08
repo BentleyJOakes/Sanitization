@@ -18,7 +18,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             commandId="Sanitize.commands.sampleCommand"
-            class="sanitize.handlers.SampleHandler">
+            class="sanitize.handlers.SanitizerMain">
       </handler>
    </extension>
    <extension

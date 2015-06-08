@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import sanitize.SanitizerSaveLoadHandler;
 import sanitizepolicies.PrintSanitizePolicy;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -23,11 +22,11 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class SampleHandler extends AbstractHandler {
+public class SanitizerMain extends AbstractHandler {
 	/**
 	 * The constructor.
 	 */
-	public SampleHandler() {
+	public SanitizerMain() {
 	}
 
 	/**
