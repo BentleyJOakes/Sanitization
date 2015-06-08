@@ -122,10 +122,19 @@ public class PrintSanitizePolicy extends SanitizePolicy
 		System.out.println("Structural Feature");
 
 		boolean isDerived = esf.isDerived();
+		boolean isVolatile = esf.isVolatile();
+		boolean isChangeable = esf.isChangeable();
+		boolean isTransient = esf.isTransient();
+		boolean isUnsettable = esf.isUnsettable();
 		
 		String dvl = esf.getDefaultValueLiteral();
 
 		System.out.println("\tisDerived: " + isDerived);
+		System.out.println("\tisVolatile: " + isVolatile);
+		System.out.println("\tisChangeable: " + isChangeable);
+		System.out.println("\tisTransient: " + isTransient);
+		System.out.println("\tisUnsettable: " + isUnsettable);
+		
 		if (dvl != null)
 			System.out.println("\tDefaultValueLiteral: " + dvl);
 

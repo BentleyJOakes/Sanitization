@@ -191,6 +191,34 @@ public abstract class SanitizePolicy
 	
 	//=========
 
+	protected void santizeEOperation(EClass eop){}
+	protected void sanitizeEOperationStructure(EClass eClass)
+	{
+		if (eClass.getEOperations().size() > 0)
+		{
+			for (EOperation eOperation : eClass.getEOperations())
+			{
+				
+				sanitizeETypedElementStructure(eOperation);
+				
+				for (EParameter ep : eOperation.getEParameters())
+				{
+					sanitizeETypedElementStructure(ep);
+				}
+				
+				for (ETypeParameter etp : eOperation.getETypeParameters())
+				{
+					sanitizeENamedElementStructure(etp);
+				}
+				
+				for (EClassifier ee : eOperation.getEExceptions())
+				{
+					sanitizeEClassifierStructure(ee);
+				}
+			}
+		}
+	}
+		
 	protected void sanitizeEClass(EClass ec){}
 	protected void sanitizeEClassStructure(EClass eClass)
 	{
@@ -219,30 +247,6 @@ public abstract class SanitizePolicy
 			for (EReference eReference : eClass.getEReferences())
 			{
 				sanitizeEReferenceStructure(eReference);
-			}
-		}
-		
-		if (eClass.getEOperations().size() > 0)
-		{
-			for (EOperation eOperation : eClass.getEOperations())
-			{
-				
-				sanitizeETypedElementStructure(eOperation);
-				
-				for (EParameter ep : eOperation.getEParameters())
-				{
-					sanitizeETypedElementStructure(ep);
-				}
-				
-				for (ETypeParameter etp : eOperation.getETypeParameters())
-				{
-					sanitizeENamedElementStructure(etp);
-				}
-				
-				for (EClassifier ee : eOperation.getEExceptions())
-				{
-					sanitizeEClassifierStructure(ee);
-				}
 			}
 		}
 	}

@@ -68,7 +68,7 @@ public class SanitizerMain extends AbstractHandler {
 	
 	public static void main(String[] args)
 	{
-		 EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("ifc2x3.ecore");
+		 EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("BPEL.ecore");
 	        
 		 PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
 	     EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
