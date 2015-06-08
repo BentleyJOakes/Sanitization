@@ -25,8 +25,16 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import sanitize.reports.Report;
+
 public abstract class SanitizePolicy
 {
+	
+	public Report report = new Report();
+	
+	public abstract void finish();
+	
+	
 	public EList<EObject> sanitize(EList<EObject> eobjects)
 	{
 		System.out.println("Start sanitization");
@@ -69,6 +77,7 @@ public abstract class SanitizePolicy
 			
 		}
 		
+		finish();
 		
 		return eobjects;
 	
@@ -258,9 +267,9 @@ public abstract class SanitizePolicy
 	
 	protected void sanitizeEEnumStructure(EEnum eEnum)
 	{
-		sanitizeEEnum(eEnum);
-		sanitizeEDataTypeStructure(eEnum);
 		
+		sanitizeEDataTypeStructure(eEnum);
+		sanitizeEEnum(eEnum);
 		
 		for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
 		{
