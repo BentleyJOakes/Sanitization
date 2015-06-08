@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import sanitizepolicies.PrintSanitizePolicy;
+import sanitize.policies.PrintSanitizePolicy;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

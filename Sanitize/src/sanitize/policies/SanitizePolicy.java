@@ -1,4 +1,4 @@
-package sanitizepolicies;
+package sanitize.policies;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -75,7 +75,7 @@ public abstract class SanitizePolicy
 	}
 	
 	//=========
-	protected abstract void sanitizeRoot(EPackageImpl root);
+	protected void sanitizeRoot(EPackageImpl root){}
 
 	protected void sanitizeRootStructure(EPackageImpl root)
 	{
@@ -85,7 +85,7 @@ public abstract class SanitizePolicy
 	//=========
 
 	
-	protected abstract void sanitizeEModelElement(EModelElement eme);
+	protected void sanitizeEModelElement(EModelElement eme){}
 
 	protected void sanitizeEModelElementStructure(EModelElement eme)
 	{
@@ -99,10 +99,10 @@ public abstract class SanitizePolicy
 	
 	//=========
 
-	protected abstract void sanitizeEAnnotation(EAnnotation ea);
+	protected void sanitizeEAnnotation(EAnnotation ea){}
 	
 	//=========
-	protected abstract void sanitizeENamedElement(ENamedElement ene);
+	protected void sanitizeENamedElement(ENamedElement ene){}
 
 	protected void sanitizeENamedElementStructure(ENamedElement ene)
 	{
@@ -111,7 +111,7 @@ public abstract class SanitizePolicy
 	}
 	//=========
 
-	protected abstract void sanitizeEClassifier(EClassifier ec);
+	protected void sanitizeEClassifier(EClassifier ec){}
 
 	protected void sanitizeEClassifierStructure(EClassifier ec)
 	{
@@ -129,11 +129,11 @@ public abstract class SanitizePolicy
 	}
 
 	//=========
-	protected abstract void sanitizeEGenericType(EGenericType egt);
+	protected void sanitizeEGenericType(EGenericType egt){}
 
 	//=========
 	
-	protected abstract void sanitizeETypedElement(ETypedElement ete);
+	protected void sanitizeETypedElement(ETypedElement ete){}
 	protected void sanitizeETypedElementStructure(ETypedElement ete)
 	{
 		sanitizeENamedElement(ete);
@@ -141,7 +141,7 @@ public abstract class SanitizePolicy
 	}
 	//=========
 
-	protected abstract void sanitizeEStructuralFeature(EStructuralFeature esf);
+	protected void sanitizeEStructuralFeature(EStructuralFeature esf){}
 	protected void sanitizeEStructuralFeatureStructure(EStructuralFeature esf)
 	{
 		sanitizeETypedElement(esf);
@@ -149,7 +149,7 @@ public abstract class SanitizePolicy
 	}
 	//=========
 
-	protected abstract void sanitizeEDataType(EDataType edt);
+	protected void sanitizeEDataType(EDataType edt){}
 	protected void sanitizeEDataTypeStructure(EDataType edt)
 	{
 		sanitizeEClassifier(edt);
@@ -158,7 +158,7 @@ public abstract class SanitizePolicy
 
 	//=========
 	
-	protected abstract void sanitizeEAttribute(EAttribute ea);
+	protected void sanitizeEAttribute(EAttribute ea){}
 
 	protected void sanitizeEAttributeStructure(EAttribute ea)
 	{
@@ -172,7 +172,7 @@ public abstract class SanitizePolicy
 	//=========
 
 
-	protected abstract void sanitizeEReference(EReference er);
+	protected void sanitizeEReference(EReference er){}
 	protected void sanitizeEReferenceStructure(EReference er)
 	{
 		sanitizeEStructuralFeatureStructure(er);
@@ -189,7 +189,7 @@ public abstract class SanitizePolicy
 	
 	//=========
 
-	protected abstract void sanitizeEClass(EClass ec);
+	protected void sanitizeEClass(EClass ec){}
 	protected void sanitizeEClassStructure(EClass eClass)
 	{
 		sanitizeEClassifierStructure(eClass);
@@ -268,6 +268,6 @@ public abstract class SanitizePolicy
 	
 	//=========
 	
-	protected abstract void sanitizeEEnumLiteral(EEnumLiteral eEnumLiteral);
+	protected void sanitizeEEnumLiteral(EEnumLiteral eEnumLiteral){}
 	
 }

@@ -1,4 +1,4 @@
-package sanitizepolicies;
+package sanitize.policies;
 
 import java.util.Collection;
 import java.util.Iterator;

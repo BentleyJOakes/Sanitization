@@ -1,4 +1,4 @@
-package sanitizepolicies;
+package sanitize.policies;
 
 import java.util.List;
 
@@ -78,37 +78,31 @@ public class NameSanitizePolicy extends SanitizePolicy {
 
 	@Override
 	protected void sanitizeETypedElement(ETypedElement ete) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void sanitizeEStructuralFeature(EStructuralFeature esf) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void sanitizeEDataType(EDataType edt) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void sanitizeEAttribute(EAttribute ea) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void sanitizeEReference(EReference er) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void sanitizeEClass(EClass ec) {
-		// TODO Auto-generated method stub
 
 	}
 
