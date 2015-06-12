@@ -172,7 +172,7 @@ public class OptionsPage extends WizardPage {
 	    //filling the tree
 	    for (int i = 0; i < 4; i++) {
 	        TreeItem itemI = new TreeItem(tree, SWT.NONE);
-	        itemI.setText("Item " + i);
+	        itemI.setText("Sanitize " + i);
 	        for (int j = 0; j < 4; j++) {
 	            TreeItem itemJ = new TreeItem(itemI, SWT.NONE);
 	            itemJ.setText("Item " + i + " " + j);
@@ -201,7 +201,7 @@ public class OptionsPage extends WizardPage {
 	    //filling the tree
 	    for (int i = 0; i < 4; i++) {
 	        TreeItem itemI = new TreeItem(tree2, SWT.NONE);
-	        itemI.setText("Item " + i);
+	        itemI.setText("Sanitize " + i);
 	        for (int j = 0; j < 4; j++) {
 	            TreeItem itemJ = new TreeItem(itemI, SWT.NONE);
 	            itemJ.setText("Item " + i + " " + j);
