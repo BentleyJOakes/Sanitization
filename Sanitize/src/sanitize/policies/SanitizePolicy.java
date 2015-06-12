@@ -274,7 +274,7 @@ public abstract class SanitizePolicy
 		for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
 		{
 			
-			sanitizeEEnumLiteral(eEnumLiteral);
+			sanitizeEEnumLiteralStructure(eEnumLiteral);
 		}
 		
 	}
@@ -284,5 +284,10 @@ public abstract class SanitizePolicy
 	//=========
 	
 	protected void sanitizeEEnumLiteral(EEnumLiteral eEnumLiteral){}
+	protected void sanitizeEEnumLiteralStructure(EEnumLiteral eEnumLiteral)
+	{
+		sanitizeENamedElementStructure(eEnumLiteral);
+		sanitizeEEnumLiteral(eEnumLiteral);
+	}
 	
 }

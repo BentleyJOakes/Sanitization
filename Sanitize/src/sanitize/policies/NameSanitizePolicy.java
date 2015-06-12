@@ -12,11 +12,14 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import sanitize.implementations.NameReplacer;
+
 public class NameSanitizePolicy extends SanitizePolicy
 {
 
 	HashMap<String, String> nameMap = new HashMap<String, String>();
 	
+	NameReplacer replacer = new NameReplacer("src/word_lists/nouns.txt", true);
 	
 	
 	boolean sanitizeAnnotations = false;
@@ -61,7 +64,7 @@ public class NameSanitizePolicy extends SanitizePolicy
 		if (packageDocumentation != null)
 			System.out.println("packageDocumentation: " + packageDocumentation);
 		
-		EcoreUtil.setDocumentation(eme, "");
+		//EcoreUtil.setDocumentation(eme, "");
 		
 		List<String> constraints = EcoreUtil.getConstraints(eme);
 		for (String s : constraints)
@@ -75,7 +78,7 @@ public class NameSanitizePolicy extends SanitizePolicy
 	protected void sanitizeEAnnotation(EAnnotation ea) {
 		String source = ea.getSource();
 		System.out.println("Source: " + source);
-		ea.setSource("BlahSource");
+		//ea.setSource("BlahSource");
 		
 		EMap<String, String> details = ea.getDetails();
 		for (String s : details.keySet())
@@ -87,9 +90,12 @@ public class NameSanitizePolicy extends SanitizePolicy
 	@Override
 	protected void sanitizeENamedElement(ENamedElement ene) {
 		System.out.println("****************");
-		String name = ene.getName();
-		System.out.println("Name: " + name);
-		ene.setName("Blah");
+		String oldName = ene.getName();
+		System.out.println("Name: " + oldName);
+		
+		String newName = replacer.nameReplace(oldName);
+		ene.setName(newName);
+		nameMap.put(oldName, newName);
 		
 		
 		
@@ -108,8 +114,15 @@ public class NameSanitizePolicy extends SanitizePolicy
 	
 	@Override
 	protected void sanitizeEEnumLiteral(EEnumLiteral eEnumLiteral) {
-		String lit = eEnumLiteral.getLiteral();
-		System.out.println("Lit: " + lit);
+		//String lit = eEnumLiteral.getLiteral();
+		//System.out.println("Lit: " + lit);
+		//System.out.println("Name: " + eEnumLiteral.getName());
+		
+		//String newName = replacer.nameReplace(lit);
+		String name = eEnumLiteral.getName();
+		
+		eEnumLiteral.setLiteral(name);
+		//nameMap.put(lit, newName);
 	}
 
 }

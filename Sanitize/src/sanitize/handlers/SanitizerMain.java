@@ -10,10 +10,17 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import sanitize.policies.NameSanitizePolicy;
 import sanitize.policies.PrintSanitizePolicy;
+import sanitize.reports.Report;
+import sanitize.wizard.SanWizard;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -68,12 +75,31 @@ public class SanitizerMain extends AbstractHandler {
 	
 	public static void main(String[] args)
 	{
-		 EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("BPEL.ecore");
-	        
-		 PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
-	     EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
-	        
-	     
-	     SanitizerSaveLoadHandler.saveFile(neweObjects);
+
+		final Display display = new Display();
+        final Shell shell = new Shell(display);
+        
+		SanWizard sw = new SanWizard();
+		WizardDialog wizardDialog = new WizardDialog(shell,
+			      sw);
+	    if (wizardDialog.open() == Window.OK) {
+	      System.out.println("Ok pressed");
+	    } else {
+	      System.out.println("Cancel pressed");
+	      }
+			    
+//       EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("IFC4.ecore");
+//
+//	        
+//		 //PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
+//	     //EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
+//		 
+//		NameSanitizePolicy namePolicy = new NameSanitizePolicy();
+//	    EList<EObject> neweObjects = namePolicy.sanitize(eObjects);
+//	        
+//	    Report r = namePolicy.report;
+//	    System.out.println(r.toString());
+//	    
+//	     SanitizerSaveLoadHandler.saveFile(neweObjects);
 	}
 }

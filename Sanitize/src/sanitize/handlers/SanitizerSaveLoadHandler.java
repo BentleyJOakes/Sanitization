@@ -3,6 +3,8 @@ package sanitize.handlers;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.*;
 import org.eclipse.core.runtime.IPath;
@@ -15,6 +17,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
@@ -74,7 +77,9 @@ public class SanitizerSaveLoadHandler
 		// Print the contents of the resource to System.out.
 		try
 		{
-			newResource.save(Collections.EMPTY_MAP);
+			Map options = new HashMap();
+			options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.FALSE);
+			newResource.save(options);
 		}
 		catch (IOException e)
 		{

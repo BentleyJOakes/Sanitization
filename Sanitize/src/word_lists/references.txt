@@ -1,0 +1,1 @@
+nouns.txt http://ucrel.lancs.ac.uk/bncfreq/lists/5_1_all_rank_noun.txt
