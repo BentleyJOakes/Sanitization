@@ -16,7 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 
 import org.eclipse.swt.events.KeyListener;
-
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 
 import org.eclipse.swt.layout.GridLayout;
@@ -33,11 +33,15 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 
-public class OptionsPage extends WizardPage {
+public class OptionsPage extends WizardPage implements Listener {
 
 	private Text text1;
 
 	  private Composite composite;
+	  
+	  private Label consis;
+	  
+	  private SanOptions sanOptions;
 
 	  
 	protected OptionsPage() {
@@ -154,10 +158,13 @@ public class OptionsPage extends WizardPage {
 	    composite.setLayout(layout);
 	    
 		
-		Tree tree = new Tree(composite, SWT.BORDER | SWT.CHECK);
-		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-	    tree.addListener(SWT.Selection, new Listener() {
+	    Label analysis = new Label(composite, SWT.NONE);
+	    analysis.setText("Analysis Statements:");
+	    
+	    Label threat = new Label(composite, SWT.NONE);
+	    threat.setText("Threat Statements:");
+	    
+	    Listener treeListener = new Listener() {
 	        @Override
 			public void handleEvent(Event event) {
 	            if (event.detail == SWT.CHECK) {
@@ -167,50 +174,32 @@ public class OptionsPage extends WizardPage {
 	                checkPath(item.getParentItem(), checked, false);
 	            }
 	        }
-	    });
+	    };
 	    
-	    //filling the tree
-	    for (int i = 0; i < 4; i++) {
-	        TreeItem itemI = new TreeItem(tree, SWT.NONE);
-	        itemI.setText("Sanitize " + i);
-	        for (int j = 0; j < 4; j++) {
-	            TreeItem itemJ = new TreeItem(itemI, SWT.NONE);
-	            itemJ.setText("Item " + i + " " + j);
-	            for (int k = 0; k < 4; k++) {
-	                TreeItem itemK = new TreeItem(itemJ, SWT.NONE);
-	                itemK.setText("Item " + i + " " + j + " " + k);
-	            }
-	        }
-	    }
+		Tree tree = new Tree(composite, SWT.BORDER | SWT.CHECK);
+		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+	    tree.addListener(SWT.Selection, treeListener);
+	    tree.addListener(SWT.Selection, this);
+	    
+	    
+	    sanOptions = new SanOptions();
+	    
+	    sanOptions.addAnalysisOptions(tree);
+	    
+	   
 	    
 	    Tree tree2 = new Tree(composite, SWT.BORDER | SWT.CHECK);
 		tree2.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-	    tree2.addListener(SWT.Selection, new Listener() {
-	        @Override
-			public void handleEvent(Event event) {
-	            if (event.detail == SWT.CHECK) {
-	                TreeItem item = (TreeItem) event.item;
-	                boolean checked = item.getChecked();
-	                checkItems(item, checked);
-	                checkPath(item.getParentItem(), checked, false);
-	            }
-	        }
-	    });
+	    tree2.addListener(SWT.Selection, treeListener);
+	    tree2.addListener(SWT.Selection, this);
 	    
-	    //filling the tree
-	    for (int i = 0; i < 4; i++) {
-	        TreeItem itemI = new TreeItem(tree2, SWT.NONE);
-	        itemI.setText("Sanitize " + i);
-	        for (int j = 0; j < 4; j++) {
-	            TreeItem itemJ = new TreeItem(itemI, SWT.NONE);
-	            itemJ.setText("Item " + i + " " + j);
-	            for (int k = 0; k < 4; k++) {
-	                TreeItem itemK = new TreeItem(itemJ, SWT.NONE);
-	                itemK.setText("Item " + i + " " + j + " " + k);
-	            }
-	        }
-	    }
+	    sanOptions.addThreatOptions(tree2);
+	    
+	    consis = new Label(composite, SWT.NONE);
+	    setConsisText(true);
+	    consis.setLayoutData(new GridData(GridData.FILL_BOTH));
 	    
 //		Rectangle clientArea = shell.getClientArea();
 //	    tree.setBounds(clientArea.x, clientArea.y, 200, 200);
@@ -266,7 +255,23 @@ public class OptionsPage extends WizardPage {
 //		    return composite;
 		  }
 
-
+	private void setConsisText(boolean isConsis)
+	{
+		consis.setText("Statements are consistent: " + isConsis);
+		
+		if (isConsis)
+			consis.setForeground(new Color(null, 0,0,0));
+		else
+			consis.setForeground(new Color(null, 200,0,0));
+	    
+	}
+	
+	@Override
+	public void handleEvent(Event event) {
+        if (event.detail == SWT.CHECK) {
+            setConsisText(sanOptions.getConsis());
+        }
+    }
 
 	  public String getText1() {
 
