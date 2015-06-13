@@ -91,6 +91,7 @@ public class PreviewPage extends WizardPage
 		originalModel.setInput(previewModel);
 		
 		originalModel.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		originalModel.expandAll();
 		
 		sanModel = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		sanModel.setLabelProvider(reader);
@@ -137,6 +138,7 @@ public class PreviewPage extends WizardPage
 		spc.sanitizeModel(previewModel);
 		
 		sanModel.setInput(previewModel);
+		sanModel.expandAll();
 	}
 		
 

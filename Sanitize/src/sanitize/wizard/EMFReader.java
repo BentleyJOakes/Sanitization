@@ -18,13 +18,17 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EAnnotationImpl;
+import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EClassifierImpl;
 import org.eclipse.emf.ecore.impl.EEnumImpl;
+import org.eclipse.emf.ecore.impl.EEnumLiteralImpl;
 import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENamedElementImpl;
 import org.eclipse.emf.ecore.impl.EOperationImpl;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.impl.EParameterImpl;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
@@ -160,8 +164,13 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
 		  if (ee.getELiterals().size() > 0)
 			  return true;
 	  }
+	  
+	  if (element instanceof EAnnotationImpl)
+	  {
+		  return true;
+	  }
     	  
-      System.out.println("No Children for element: " + element.getClass().getName());
+      //System.out.println("No Children for element: " + element.getClass().getName());
       return false;
     }
     
@@ -170,7 +179,7 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
     public Object[] getChildren(Object parentElement) {
     	
     	ArrayList<Object> list = new ArrayList<Object>();
-    	System.out.println("Get Children for element: " + parentElement.getClass().getName());
+    	//System.out.println("Get Children for element: " + parentElement.getClass().getName());
     	if (parentElement instanceof EPackageImpl)
         {
     		EPackageImpl root = (EPackageImpl) parentElement;
@@ -235,8 +244,20 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
   	  {
   		  //System.out.println("This is a EClassImpl");
   		EClassImpl ec = (EClassImpl) parentElement;
-  		  
-  		  list.addAll(ec.getEGenericSuperTypes());
+  		
+  		
+  		
+  		EList<EGenericType> supertypes = ec.getEGenericSuperTypes();
+  		if (supertypes.size() > 0)
+  		{
+	  		String superTypesString = "Supertypes: ";
+	  		for (EGenericType egt : supertypes)
+	  		{
+	  			superTypesString += egt.getERawType().getName() + ", ";
+	  		}
+	  		  
+	  		list.add(superTypesString.substring(0, superTypesString.length()-2));
+  		}
   		list.addAll(ec.getEAttributes());
   		list.addAll(ec.getEReferences());
   		list.addAll(ec.getEOperations());
@@ -248,6 +269,12 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
   		  EEnumImpl ee = (EEnumImpl) parentElement;
   		  
   		  list.addAll(ee.getELiterals());
+  	  }
+  	  
+  	  if (parentElement instanceof EAnnotationImpl)
+  	  {
+  		  EAnnotationImpl ea = (EAnnotationImpl) parentElement;
+  		  list.add("Source: " + ea.getSource());
   	  }
   	  
   		return list.toArray();
@@ -262,11 +289,13 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
   		 type = type.replace("Impl", "");
   		 type = type.substring(1);
   		 
+  		 String returnString = type + ": " + element.toString();
+  		 
   		 
   		 if (element instanceof ENamedElementImpl)
   		 {
   			 ENamedElement ene = (ENamedElement) element;
-  			 return type + ": " + ene.getName();
+  			 returnString = type + ": " + ene.getName();
   		 }
   		 
   		 else if (element instanceof String)
@@ -282,10 +311,58 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
  				 s = s.replace(NsUri, "");
  				 return "NsURI: " + s;
  			 }
+  			
+  			return s;
   				 
   		 }
   		 
-  		 return type + ": " + element.toString();
+  		 if (element instanceof EClassImpl)
+  		 {
+  			 EClassImpl ec = (EClassImpl) element;
+  			
+  	  		if (ec.isInterface())
+  	  			returnString += " (Interface)";
+  	  		else if (ec.isAbstract())
+  	  			returnString += " (Abstract)";
+  		 }
+  		 else if (element instanceof EAttributeImpl)
+  		 {
+  			 EAttributeImpl ea = (EAttributeImpl) element;
+  			EDataType edt = ea.getEAttributeType();
+  			returnString = "Attribute: " + edt.getName() + " " + ea.getName();
+  		 }
+  		else if (element instanceof EReferenceImpl)
+ 		 {
+  			EReferenceImpl er = (EReferenceImpl) element;
+ 			EClass ec = er.basicGetEReferenceType();
+ 			returnString = "Reference: " + ec.getName() + " " + er.getName();
+ 		 }
+  		 
+  		else if (element instanceof EOperationImpl)
+		 {
+  			EOperationImpl eo = (EOperationImpl) element;
+			EClassifier ec = eo.getEType();
+			returnString = "Operation: " + ec.getName() + " " + eo.getName();
+		 }
+  		else if (element instanceof EParameterImpl)
+		 {
+  			EParameterImpl ep = (EParameterImpl) element;
+			EClassifier ec = ep.getEType();
+			returnString = "Parameter: " + ec.getName() + " " + ep.getName();
+		 }
+  		 
+  		else if (element instanceof EEnumLiteralImpl)
+  		{
+  			EEnumLiteralImpl eel = (EEnumLiteralImpl) element;
+  			returnString += " = " + eel.getValue();
+  		}
+
+  		else if (element instanceof EAnnotationImpl)
+  		{
+  			returnString = "Annotation: ";
+  		}
+  		 
+  		 return returnString;
   	 }
 	
 	

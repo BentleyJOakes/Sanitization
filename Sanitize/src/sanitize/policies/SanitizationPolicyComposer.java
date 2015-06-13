@@ -36,6 +36,7 @@ public class SanitizationPolicyComposer
 
 	public void sanitizeModel(EList<EObject> previewModel)
 	{
+		System.out.println("Starting to sanitize...");
 		for (SanitizePolicy sp : sanPolicyList)	
 		{
 			sp.sanitize(previewModel);
