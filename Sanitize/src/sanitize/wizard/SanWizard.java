@@ -2,12 +2,16 @@ package sanitize.wizard;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 
 
 public class SanWizard extends Wizard {
 
 	protected OptionsPage oPage;
 	protected PreviewPage pPage;
+	
+	int nextPageCount = 0;
 	
 	public SanWizard() {
 
@@ -23,7 +27,7 @@ public class SanWizard extends Wizard {
 
 	  public String getWindowTitle() {
 
-	    return "Export My Data";
+	    return "Sanitization";
 
 	  }
 
@@ -34,7 +38,7 @@ public class SanWizard extends Wizard {
 	  public void addPages() {
 
 		  oPage = new OptionsPage();
-		  pPage = new PreviewPage();
+		  pPage = new PreviewPage(oPage);
 
 	    addPage(oPage);
 	    addPage(pPage);
@@ -44,8 +48,15 @@ public class SanWizard extends Wizard {
 	  @Override
 	  public IWizardPage getNextPage(IWizardPage currentPage) {
 	      
-	      if (currentPage == oPage) {
+	      if (currentPage == oPage)
+	      {  
 	          return pPage;
+	      }
+	      else if (currentPage == pPage)
+	      {
+	    	  //System.out.println("Start sanitizing?");
+    		  pPage.setOptions();
+    		  pPage.sanitize();
 	      }
 	      return null;
 	  } 
@@ -54,7 +65,8 @@ public class SanWizard extends Wizard {
 
 	  @Override
 
-	  public boolean performFinish() {
+	  public boolean performFinish()
+	  {
 
 	    // Print the result to the console
 

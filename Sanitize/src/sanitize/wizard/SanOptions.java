@@ -1,17 +1,14 @@
 package sanitize.wizard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class SanOptions
 {
-	HashMap<String, TreeItem> analysisOptions = new HashMap<String, TreeItem>();
-	HashMap<String, TreeItem> threatOptions = new HashMap<String, TreeItem>();
+	public HashMap<String, TreeItem> analysisOptions = new HashMap<String, TreeItem>();
+	public HashMap<String, TreeItem> threatOptions = new HashMap<String, TreeItem>();
 
 	public void addOption(String name, String desc, HashMap<String, TreeItem> map, Tree parent)
 	{
@@ -46,6 +43,7 @@ public class SanOptions
 	public void addThreatOptions(Tree tree) {
 		addOption("industry", "What industry is this metamodel used in?", threatOptions, tree);
 		
+		addOption("subtypes", "What is the inheritance hierarchy?", threatOptions, tree);
 		addOption("typeAttributes", "What is the type of each attribute?", threatOptions, tree);
 		
 	}
@@ -64,11 +62,15 @@ public class SanOptions
 		
 		boolean t_industryChecked = threatOptions.get("industry").getChecked();
 		boolean t_typeAttributesChecked = threatOptions.get("typeAttributes").getChecked();
+		boolean t_subtypesChecked = threatOptions.get("subtypes").getChecked();
 		
 		if (t_typeAttributesChecked && a_typeAttributesChecked)
 			return false;
 		
 		if (a_nameClassesChecked && t_industryChecked)
+			return false;
+		
+		if (a_subtypesChecked && t_subtypesChecked)
 			return false;
 		
 		

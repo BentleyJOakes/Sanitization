@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -23,15 +24,22 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 import sanitize.handlers.SanitizerSaveLoadHandler;
+import sanitize.policies.SanitizationPolicyComposer;
 
 public class PreviewPage extends WizardPage
 {
 	private Composite composite;
 	
-	private StyledText before;
-	private StyledText after;
+	private OptionsPage oPage;
+	
+	private SanitizationPolicyComposer spc;
+	
+	
+	//the treeviewers for the panes
+	TreeViewer originalModel;
+	TreeViewer sanModel;
       
-	protected PreviewPage()
+	protected PreviewPage(OptionsPage oPage)
 	{
 		super("Preview Page");
 
@@ -39,7 +47,10 @@ public class PreviewPage extends WizardPage
 
 	    setDescription("Now this is the preview page");
 
+	    this.oPage = oPage;
+	  
 	}
+	
 	
 	public void createControl(Composite parent)
 	{
@@ -59,7 +70,7 @@ public class PreviewPage extends WizardPage
 	    
 	    System.out.println("LEngth: " + previewModel.size());
 	    
-	    TreeViewer treeViewer = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+	    originalModel = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 	    
 	    //treeViewer.setContentProvider(reader);
 	    //treeViewer.setLabelProvider(tree);
@@ -75,50 +86,31 @@ public class PreviewPage extends WizardPage
 
 //		   new AdapterFactoryContentProvider(composedAdapterFactory);
 		 
-		treeViewer.setLabelProvider(reader);
-		treeViewer.setContentProvider(reader);
+		originalModel.setLabelProvider(reader);
+		originalModel.setContentProvider(reader);
 		
-		treeViewer.setInput(previewModel);
+		originalModel.setInput(previewModel);
 		
-		treeViewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		originalModel.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		TreeViewer treeViewer2 = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		treeViewer2.setLabelProvider(reader);
-		treeViewer2.setContentProvider(reader);
+		sanModel = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		sanModel.setLabelProvider(reader);
+		sanModel.setContentProvider(reader);
 		
-		treeViewer2.setInput(previewModel2);
 		
-		treeViewer2.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		sanModel.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		
 		
 		// Make selection the same in both tables
 		
 		SelectionHelper sh = new SelectionHelper();
-		sh.setViewers(treeViewer, treeViewer2);
-		treeViewer.getTree().getVerticalBar().addSelectionListener(sh);
+		sh.setViewers(originalModel, sanModel);
+		originalModel.getTree().getVerticalBar().addSelectionListener(sh);
 		//treeViewer2.getTree().getVerticalBar().addSelectionListener(sh);
 		
-		
-		
-		//treeViewer.setInput(previewModel.get(0));
-	    		
-	    //EMFReader reader = new EMFReader();
-	    
-	    //treeViewer.setContentProvider(reader);
-	   //treeViewer.setContentProvider(new AdapterFactoryContentProvider(reader));
-	    //treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(reader));
-	    
-	    
-//	    
-//	    before = new StyledText(composite, SWT.READ_ONLY | SWT.BORDER | SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
-//	    before.setLayoutData(new GridData(GridData.FILL_BOTH));
-//	    before.setText("Model Data");
-//	    
-//	    after = new StyledText(composite, SWT.READ_ONLY | SWT.BORDER | SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
-//	    after.setLayoutData(new GridData(GridData.FILL_BOTH));
-//	    after.setText("Sanitized Data");
-	    
+	
 	    
 	    
 	    
@@ -126,6 +118,26 @@ public class PreviewPage extends WizardPage
 	    setControl(composite);
 
 	    setPageComplete(true);
+	}
+
+
+	public void setOptions()
+	{
+		System.out.println("Setting options for preview page");
+		
+		spc = new SanitizationPolicyComposer(oPage.sanOptions.analysisOptions, oPage.sanOptions.threatOptions);
+	}
+
+
+	public void sanitize()
+	{
+		System.out.println("Sanitizing for preview page");
+		
+		EList<EObject> previewModel = SanitizerSaveLoadHandler.loadFile("IFC4.ecore");
+		
+		spc.sanitizeModel(previewModel);
+		
+		sanModel.setInput(previewModel);
 	}
 		
 

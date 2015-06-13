@@ -41,7 +41,7 @@ public class OptionsPage extends WizardPage implements Listener {
 	  
 	  private Label consis;
 	  
-	  private SanOptions sanOptions;
+	  public SanOptions sanOptions;
 
 	  
 	protected OptionsPage() {
@@ -173,6 +173,7 @@ public class OptionsPage extends WizardPage implements Listener {
 	                checkItems(item, checked);
 	                checkPath(item.getParentItem(), checked, false);
 	            }
+	            
 	        }
 	    };
 	    
@@ -269,7 +270,9 @@ public class OptionsPage extends WizardPage implements Listener {
 	@Override
 	public void handleEvent(Event event) {
         if (event.detail == SWT.CHECK) {
-            setConsisText(sanOptions.getConsis());
+        	boolean isConsis = sanOptions.getConsis();
+            setConsisText(isConsis);
+            setPageComplete(isConsis);
         }
     }
 
