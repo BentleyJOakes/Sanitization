@@ -108,6 +108,10 @@ public class NameReplacer
 	
 	public String wordReplace(String oldWord)
 	{
+		//make the word lowercase
+		//TODO: Think through the consequences of this
+		oldWord = oldWord.toLowerCase();
+		
 		if (retainMapping && wordMapping.containsKey(oldWord))
 		{
 			return wordMapping.get(oldWord);
@@ -119,16 +123,16 @@ public class NameReplacer
 		candidateWords.remove(index);
 		
 		//try to match the case of the old word
-		int upperCase = 0;
-		
-		for (int k = 0; k < oldWord.length(); k++) {
-		    // Check for uppercase letters.
-		    if (Character.isUpperCase(oldWord.charAt(k))) upperCase++;
-		}
-		
-		if (upperCase == oldWord.length())
-			newWord = newWord.toUpperCase();
-		
+//		int upperCase = 0;
+//		
+//		for (int k = 0; k < oldWord.length(); k++) {
+//		    // Check for uppercase letters.
+//		    if (Character.isUpperCase(oldWord.charAt(k))) upperCase++;
+//		}
+//		
+//		if (upperCase == oldWord.length())
+//			newWord = newWord.toUpperCase();
+//		
 		
 		wordMapping.put(oldWord, newWord);
 		System.out.println(oldWord + " => " + newWord);

@@ -35,6 +35,9 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class EMFReader extends LabelProvider implements ITreeContentProvider 
 {
+	
+	String NsPrefix = "NSPREFIX_";
+	String NsUri = "NSURI_";
 
 //	EPackageImpl root = (EPackageImpl) eobjects.get(0);
 //	
@@ -174,21 +177,19 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
     		
     		
     		
-    		list.add(root.getNsPrefix());
-    		list.add(root.getNsURI());
+    		list.add(NsPrefix + root.getNsPrefix());
+    		list.add(NsUri + root.getNsURI());
     		
-    		list.addAll(EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.ECLASS));
-    		list.addAll(EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EENUM));
-    		list.addAll(EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE));
+    		Collection<EClass> eClasses = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.ECLASS);
+    		Collection<EClass> eEnums = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EENUM);
+    		Collection<EClass> eDataTypes = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE);
+    		
+    		eDataTypes.removeAll(eEnums);
+    		
+    		list.addAll(eClasses);
+    		list.addAll(eEnums);
+    		list.addAll(eDataTypes);
       	  
-    		
-//      	  EPackageImpl 
-//      	  Collection<EClass> eClasses = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.ECLASS);
-//      	  Collection<EEnum> eEnums = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EENUM);
-//      	  Collection<EDataType> eDataTypes = EcoreUtil.getObjectsByType(root.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE);
-//      	  
-//      	  if (eClasses.size() > 0 || eEnums.size() > 0 || eDataTypes.size() > 0)
-//      		  return true;
     			
         }
         
@@ -232,7 +233,7 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
   	  
   	  if (parentElement instanceof EClassImpl)
   	  {
-  		  System.out.println("This is a EClassImpl");
+  		  //System.out.println("This is a EClassImpl");
   		EClassImpl ec = (EClassImpl) parentElement;
   		  
   		  list.addAll(ec.getEGenericSuperTypes());
@@ -249,12 +250,43 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
   		  list.addAll(ee.getELiterals());
   	  }
   	  
-  	  //System.out.println("Returning no Children for element: " + parentElement.getClass().getName());
   		return list.toArray();
     }
     
     
-    
+  //LabelProvider
+  	 @Override
+  	   public String getText(Object element) {
+  		 
+  		 String type = element.getClass().getSimpleName();
+  		 type = type.replace("Impl", "");
+  		 type = type.substring(1);
+  		 
+  		 
+  		 if (element instanceof ENamedElementImpl)
+  		 {
+  			 ENamedElement ene = (ENamedElement) element;
+  			 return type + ": " + ene.getName();
+  		 }
+  		 
+  		 else if (element instanceof String)
+  		 {
+  			 String s = (String) element;
+  			 if (s.startsWith(NsPrefix))
+  			 {
+  				 s = s.replace(NsPrefix, "");
+  				 return "NsPrefix: " + s;
+  			 }
+  			if (s.startsWith(NsUri))
+ 			 {
+ 				 s = s.replace(NsUri, "");
+ 				 return "NsURI: " + s;
+ 			 }
+  				 
+  		 }
+  		 
+  		 return type + ": " + element.toString();
+  	 }
 	
 	
 	@Override
@@ -271,18 +303,7 @@ public class EMFReader extends LabelProvider implements ITreeContentProvider
     }
     
     
-	//LabelProvider
-	 @Override
-	   public String getText(Object element) {
-		 
-		 if (element instanceof ENamedElementImpl)
-		 {
-			 ENamedElement ene = (ENamedElement) element;
-			 return ene.getName();
-		 }
-		 
-		 return element.toString();
-	 }
+	
 	
 
 

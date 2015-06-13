@@ -65,10 +65,9 @@ public class PreviewPage extends WizardPage
 	    EMFReader reader = new EMFReader();
 	    
 	    
-	    EList<EObject> previewModel = SanitizerSaveLoadHandler.loadFile("IFC4.ecore");
-	    EList<EObject> previewModel2 = SanitizerSaveLoadHandler.loadFile("IFC4-san.ecore");
+	    EList<EObject> previewModel = SanitizerSaveLoadHandler.loadFile("sample.ecore");
+	    //EList<EObject> previewModel2 = SanitizerSaveLoadHandler.loadFile("IFC4-san.ecore");
 	    
-	    System.out.println("LEngth: " + previewModel.size());
 	    
 	    originalModel = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 	    
@@ -133,7 +132,7 @@ public class PreviewPage extends WizardPage
 	{
 		System.out.println("Sanitizing for preview page");
 		
-		EList<EObject> previewModel = SanitizerSaveLoadHandler.loadFile("IFC4.ecore");
+		EList<EObject> previewModel = SanitizerSaveLoadHandler.loadFile("sample.ecore");
 		
 		spc.sanitizeModel(previewModel);
 		

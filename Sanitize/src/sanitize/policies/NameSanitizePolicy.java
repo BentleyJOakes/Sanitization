@@ -39,21 +39,21 @@ public class NameSanitizePolicy extends SanitizePolicy
 	protected void sanitizeRoot(EPackageImpl root) {
 		
 		String oldRootName = root.getName();
-		System.out.println("Root Name: " + oldRootName);
-		String newRootName = "Blah";
+		//System.out.println("Root Name: " + oldRootName);
+		String newRootName = replacer.nameReplace(oldRootName);
 		root.setName(newRootName);
 		nameMap.put(oldRootName, newRootName);
 
 		String oldNsURI = root.getNsURI();
-		System.out.println("NS_URI: " + oldNsURI);
-		String newNsURI = "BlahURI";
-		root.setName(newNsURI);
+		//System.out.println("NS_URI: " + oldNsURI);
+		String newNsURI = replacer.nameReplace(oldNsURI);;
+		root.setNsURI(newNsURI);
 		nameMap.put(oldNsURI, newNsURI);
 		
 		String oldNsPrefix = root.getNsPrefix();
-		System.out.println("Root Name: " + oldNsPrefix);
-		String newNsPrefix = "BlahPrefix";
-		root.setName(newNsPrefix);
+		//System.out.println("Root Name: " + oldNsPrefix);
+		String newNsPrefix = replacer.nameReplace(oldNsPrefix);;
+		root.setNsPrefix(newNsPrefix);
 		nameMap.put(oldNsPrefix, newNsPrefix);
 	}
 
