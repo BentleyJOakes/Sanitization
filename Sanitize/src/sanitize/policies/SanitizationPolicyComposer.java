@@ -24,13 +24,13 @@ public class SanitizationPolicyComposer
 		}
 		if (threatOptions.get("subtypes").getChecked())
 		{
-			//NameSanitizePolicy namePolicy = new NameSanitizePolicy();
-			//sanPolicyList.add(namePolicy);
+			InheritanceRemovalPolicy inheritancePolicy = new InheritanceRemovalPolicy();
+			sanPolicyList.add(inheritancePolicy);
 		}
 		if (threatOptions.get("typeAttributes").getChecked())
 		{
-			//NameSanitizePolicy namePolicy = new NameSanitizePolicy();
-			//sanPolicyList.add(namePolicy);
+			AttributeTypeRemovePolicy attribTypePolicy = new AttributeTypeRemovePolicy();
+			sanPolicyList.add(attribTypePolicy);
 		}
 	}
 

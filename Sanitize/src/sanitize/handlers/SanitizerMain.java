@@ -56,13 +56,7 @@ public class SanitizerMain extends AbstractHandler {
 
 		        System.out.println("ECore file: " + path.toString());
 
-		        EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile(path.toString());
 		        
-		        PrintSanitizePolicy printPolicy = new PrintSanitizePolicy();
-		        EList<EObject> neweObjects = printPolicy.sanitize(eObjects);
-		        
-		        
-		        SanitizerSaveLoadHandler.saveFile(neweObjects);
 		        
 		      }
 		    }
@@ -80,13 +74,20 @@ public class SanitizerMain extends AbstractHandler {
         final Shell shell = new Shell(display);
         
 		SanWizard sw = new SanWizard();
+		
+		sw.modelFileName = "IFC4.ecore";
+		
 		WizardDialog wizardDialog = new WizardDialog(shell,
 			      sw);
-	    if (wizardDialog.open() == Window.OK) {
-	      System.out.println("Ok pressed");
-	    } else {
-	      System.out.println("Cancel pressed");
-	      }
+		wizardDialog.open();
+		
+//	    if (wizardDialog.open() == Window.OK) {
+//	      System.out.println("Ok pressed");
+//	    } else {
+//	      System.out.println("Cancel pressed");
+//	      }
+		
+		
 			    
 //       EList<EObject> eObjects = SanitizerSaveLoadHandler.loadFile("IFC4.ecore");
 //

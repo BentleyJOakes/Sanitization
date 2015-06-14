@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class OptionsPage extends WizardPage implements Listener {
 
-	private Text text1;
 
 	  private Composite composite;
 	  
@@ -51,7 +50,6 @@ public class OptionsPage extends WizardPage implements Listener {
 
 	    setDescription("Now this is the options page");
 
-	    setControl(text1);
 
 	}
 
@@ -275,12 +273,6 @@ public class OptionsPage extends WizardPage implements Listener {
             setPageComplete(isConsis);
         }
     }
-
-	  public String getText1() {
-
-	    return text1.getText();
-
-	  }
 
 
 }
